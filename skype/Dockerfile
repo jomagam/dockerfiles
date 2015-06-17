@@ -5,6 +5,7 @@
 #	-v /home/$(whoami)/.Skype-idents:/root/.Skype-idents
 #	-e DISPLAY=unix$DISPLAY \
 #	-e PULSE_SERVER=$(ip addr show eth0  | awk '/inet/ {print $2}' | cut -d/ -f1 |head -1) \ # or however you get your local address 
+#	--name skype --rm
 #	jess/skype
 #
 #	On your host machine do:
