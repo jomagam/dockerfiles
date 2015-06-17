@@ -2,9 +2,14 @@
 #
 # docker run -v /tmp/.X11-unix:/tmp/.X11-unix \
 #	-v /dev/snd:/dev/snd \
+#	-v /home/$(whoami)/.Skype-idents:/root/.Skype-idents
 #	-e DISPLAY=unix$DISPLAY \
 #	-e PULSE_SERVER=$(ip addr show eth0  | awk '/inet/ {print $2}' | cut -d/ -f1 |head -1) \ # or however you get your local address 
 #	jess/skype
+#
+#	On your host machine do:
+#	mkdir $HOME/.Skype-idents && mv ~/.Skype $HOME/.Skype-idents 
+#	ln -s $HOME/.Skype-idents/.Skype $HOME/.Skype
 #
 FROM debian:jessie
 
@@ -24,6 +29,9 @@ RUN curl http://download.skype.com/linux/skype-debian_4.3.0.37-1_i386.deb > /usr
 	dpkg -i /usr/src/skype.deb || true && \
 	apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /root/.Skype-idents
+RUN ln -s /root/.Skype-idents/.Skype root/.Skype
 
 # Start Skype
 ENTRYPOINT ["skype"]
